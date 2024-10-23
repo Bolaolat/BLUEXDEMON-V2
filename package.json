@@ -1,5 +1,5 @@
 {
-  "name": "𝙱𝙻𝚄𝙴 𝙳𝙴𝙼𝙾𝙽",
+  "name": "blue demon",
   "version": "3.2",
   "description": "Simple Bot Whatsapp With Baileys",
   "main": "index.js",
@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node index.js"
   },
-  "author": "𝙱𝙻𝚄𝙴 𝙳𝙴𝙼𝙾𝙽",
+  "author": "blue demom",
   "license": "ISC",
   "dependencies": {
     "@adiwajshing/keyed-db": "^0.2.4",
