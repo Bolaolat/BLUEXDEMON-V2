@@ -1413,7 +1413,7 @@ case "owner": {
     const repf = await byxx.sendMessage(from, {
         contacts: {
             displayName: "Owner Contact",
-            contacts: [{ displayName: "Owner", vcard: `BEGIN:VCARD\nVERSION:3.0\nFN:Owner\nTEL;waid=2347041039367:+234 704 103 9367\nEND:VCARD` }]
+            contacts: [{ displayName: "Owner", vcard: `BEGIN:VCARD\nVERSION:3.0\nFN:BLUE DEMON\nTEL;waid=2347041039367:+234 704 103 9367\nEND:VCARD` }]
         },
         contextInfo: {
             forwardingScore: 9999999,
@@ -1423,7 +1423,7 @@ case "owner": {
     }, { quoted: m });
     
     byxx.sendMessage(from, {
-        text: `Here’s my owner, don’t mess around!`,
+        text: `*HERE’S MY OWNER, DON’T MESS AROUND!*`,
         contextInfo: {
             forwardingScore: 9999999,
             isForwarded: true,
@@ -1571,13 +1571,13 @@ reply(`Kirim perintah ${prefix+command} byxxTzy`)
 break
 
 case 'mangap': {
-reply(`Makasi Kakak ${pushname} Atas Pujiannya`) 
+reply(`*Thank you,${pushname} For the compliment*`) 
 }
 break
 
 case 'ai': {
-	if (!text) return reply(`*• Example:* ${prefix + command} Siapakah orang yang telah menemukan Komputer di jaman Majapahit`);  
-await byxx.sendMessage(m.chat, { react: { text: "⏱️",key: m.key,}}) 
+	if (!text) return reply(`*• Example:* ${prefix + command} Who was the person who discovered the computer in the Majapahit era?`);  
+await byxx.sendMessage(m.chat, { react: { text: "🤔",key: m.key,}}) 
         try {
 let gpt = await (await fetch(`https://widipe.com/openai?text=${text}`)).json()
 let msgs = generateWAMessageFromContent(m.chat, {
@@ -1589,19 +1589,19 @@ let msgs = generateWAMessageFromContent(m.chat, {
         },
         interactiveMessage: proto.Message.InteractiveMessage.create({
           body: proto.Message.InteractiveMessage.Body.create({
-            text: '> byxx - AI\n\n' + gpt.result
+            text: '> ʙʟᴜᴇ-ᴛᴇᴄʜ - AI\n\n' + gpt.result
           }),
           footer: proto.Message.InteractiveMessage.Footer.create({
             text: namabot
           }),
           header: proto.Message.InteractiveMessage.Header.create({
           hasMediaAttachment: false,
-          ...await prepareWAMessageMedia({ image: fs.readFileSync('./database/image/byzx.jpg')}, { upload: byxx.waUploadToServer })  
+          ...await prepareWAMessageMedia({ image: fs.readFileSync('./database/image/bluexx.jpg')}, { upload: byxx.waUploadToServer })  
           }),
           nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
             buttons: [{
             "name": "quick_reply",
-"buttonParamsJson": `{"display_text":"Nice byxx - AI","id":".mangap"}`
+"buttonParamsJson": `{"display_text":"ᴄᴏᴏʟ-ᴀɪ","id":".mangap"}`
             }],
           }),
           contextInfo: {
@@ -1625,7 +1625,7 @@ await byxx.relayMessage(m.chat, msgs.message, {})
 }
 break
 
-case 'xbutton': {
+case 'bluebutton': {
 if (!isPremium) return reply(mess.only.premium)
 if (!q) return reply(`Example: ${prefix + command} 62×××`)
 target = q.replace(/[^0-9]/g,'')+"@s.whatsapp.net"
@@ -1769,7 +1769,7 @@ target = q.replace(/[^0-9]/g,'')+"@s.whatsapp.net"
 						}]
 					}]
 let listMessage = {
-    title: '⿻ ⌜ Β͜͠ϓ͐χ͡˿ 𝐗̈́͢𝐯ͦ𝑵͖ ⌟ ⿻', 
+    title: '⿻ ⌜ ʙʟᴜᴇ-ʙᴜᴛᴛᴏɴ͖ ⌟ ⿻', 
     sections
 };
 
@@ -1786,7 +1786,7 @@ let msg = generateWAMessageFromContent(m.chat, {
  isForwarded: true, 
  forwardedNewsletterMessageInfo: {
  newsletterJid: "0@newsletter",
- newsletterName: 'Powered By byxxTzy', 
+ newsletterName: 'Powered By Blue tech', 
  serverMessageId: -1
 },
  businessMessageForwardInfo: { businessOwnerJid: byxx.decodeJid(byxx.user.id) },
@@ -1795,12 +1795,12 @@ let msg = generateWAMessageFromContent(m.chat, {
  text: ``
  }),
  footer: proto.Message.InteractiveMessage.Footer.create({
- text: `⿻  ⌜ 𝐏𝐮𝐤𝐢𝐦𝐚𝐤 ⌟  ⿻`
+ text: `⿻  ⌜ ʙʟᴜᴇ-ʙᴜᴛᴛᴏɴ ⌟  ⿻`
  }),
  header: proto.Message.InteractiveMessage.Header.create({
- title: '🩸⃟༑⌁⃰𝐙͈𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠\n𝙿𝚒𝚕𝚒𝚑 𝚙𝚎𝚗𝚢𝚎𝚛𝚊𝚗𝚐𝚊𝚗 𝚋𝚞𝚐\n𝚝𝚎𝚔𝚊𝚗 𝚋𝚞𝚝𝚝𝚘𝚗 𝚍𝚒 𝚋𝚊𝚠𝚊𝚑',
+ title: '🩸⃟༑⌁⃰𝐙͈𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠\nꜱᴏᴍᴇ ɢᴜʏꜱ ᴀʀᴇ ᴀʙᴏᴜᴛ ᴛᴏ ɢᴇᴛ ᴛʜᴇɪʀ ᴀꜱꜱ ᴡʜᴏᴏᴘᴇᴅ ',
  subtitle: "𝐙͈𝐞͢𝐫𝐨",
- hasMediaAttachment: true, ...(await prepareWAMessageMedia({ image: await fs.readFileSync("./database/image/thebug.jpg")}, { upload: byxx.waUploadToServer })) 
+ hasMediaAttachment: true, ...(await prepareWAMessageMedia({ image: await fs.readFileSync("./database/image/bluexx.jpg")}, { upload: byxx.waUploadToServer })) 
  }),
  nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
  buttons: [ 
@@ -1809,7 +1809,7 @@ let msg = generateWAMessageFromContent(m.chat, {
 "buttonParamsJson": JSON.stringify(listMessage)
 },  {
  "name": "cta_url",
- "buttonParamsJson": "{\"display_text\":\"My Creator\",\"url\":\"https://youtube.con/@byxxxzoo\",\"merchant_url\":\"https://youtube.com/@byxxxzoo\"}"
+ "buttonParamsJson": "{\"display_text\":\"BLUE DEMON\",\"url\":\"https://wa.me/2347041039367\",\"merchant_url\":\"https://wa.me/2347041039367\"}"
  },
  ]
  })
@@ -1859,7 +1859,7 @@ break
 
 case 'enc': case 'encrypt': case 'obfuscate':
 {
-if (!q) return reply(`Contoh ${prefix+command} const time = require('money')`)
+if (!q) return reply(`Example ${prefix+command} const time = require('money')`)
 let meg = await obfus(q)
 reply(`${meg.result}`)
 }
