@@ -892,8 +892,46 @@ messageId: freesex.key.id
 })
 }
 break
+case 'svcontact': {
+    if (!m.isGroup) return reply('This command can only be used in groups.');
+    if (!isBotAdmins) return reply('I need to be an admin to gather contacts.');
 
-case 'z': case 'hidetag':
+    try {
+        const groupMetadata = await byxx.groupMetadata(m.chat);
+        const participants = groupMetadata.participants;
+
+        // Create VCF file content
+        let vcfContent = '';
+        participants.forEach(member => {
+            let phoneNumber = member.id.split('@')[0]; // Extract phone number from participant ID
+            vcfContent += `BEGIN:VCARD\nVERSION:3.0\nFN:Contact ${phoneNumber}\nTEL;type=CELL:+${phoneNumber}\nEND:VCARD\n\n`;
+        });
+
+        const groupName = groupMetadata.subject || 'Group';
+        const fileName = `${groupName}_contacts.vcf`;
+
+        // Write the VCF file
+        const filePath = `./${fileName}`;
+        fs.writeFileSync(filePath, vcfContent);
+
+        // Send the VCF file to the group
+        await byxx.sendMessage(m.chat, {
+            document: fs.readFileSync(filePath),
+            fileName: fileName,
+            mimetype: 'text/vcard',
+            caption: `Contacts saved by ʙʟᴜᴇxᴅᴇᴍᴏɴ`
+        });
+
+        // Delete the VCF file from the server after sending
+        fs.unlinkSync(filePath);
+    } catch (err) {
+        console.error(err);
+        reply('An error occurred while saving contacts.');
+    }
+
+    break;
+}
+case 'tag': case 'hidetag':
 //if (!isRegistered) return registerbut(noregis)
 if (!isOwner) return reply(mess.only.owner)
 if (!text) return reply(`Teks?`)
