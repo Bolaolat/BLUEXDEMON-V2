@@ -539,7 +539,6 @@ byxx.sendMessage(m.chat, { delete: m.key })
 switch (command) {
 
 case 'blue': case 'menu': {
-await loading()
 darkphonk = fs.readFileSync('./database/haha.mp3')
 const version = require("baileys/package.json").version
 const menu = `┏━━━ ｢ \`𝙱𝙻𝚄𝙴 𝙳𝙴𝙼𝙾𝙽͖\` ｣ ━━━❐
@@ -715,7 +714,6 @@ messageId: freesex.key.id
 break
 
 case 'allmenu': {
-await loading()
 const version = require("baileys/package.json").version
 const allmenu = `┏─── ｢ \`𝙱𝙻𝚄𝙴 𝙳𝙴𝙼𝙾𝙽͖\` ｣ ──❐
 ┃✾ᐉ 𝐍𝐚𝐦𝐞 : *${pushname}*
