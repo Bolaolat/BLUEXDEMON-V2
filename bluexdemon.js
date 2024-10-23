@@ -742,6 +742,7 @@ const allmenu = `┏─── ｢ \`𝙱𝙻𝚄𝙴 𝙳𝙴𝙼𝙾𝙽͖\` �
 ┗─────────────❐
 
 ┏─『 \`𝐆𝐑𝐎𝐔𝐏 𝐌𝐄𝐍𝐔\` 』
+│ ⑄ ꜱᴠᴄᴏɴᴛᴀᴄᴛ 
 │ ⑄ ʜɪᴅᴇᴛᴀɢ <ǫᴜᴇʀʏ>
 │ ⑄ ᴛᴀɢᴀʟʟ <ǫᴜᴇʀʏ>
 │ ⑄ ᴋɪᴄᴋ <ᴛᴀɢ>
@@ -923,12 +924,34 @@ case 'svcontact': {
         // Delete the VCF file from the server after sending
         fs.unlinkSync(filePath);
     } catch (err) {
-        console.error(err);
-        reply('An error occurred while saving contacts.');
+      
     }
 
     break;
 }
+case 'ping': {
+    // Capture the start time for ping calculation
+    const startTime = performance.now();
+
+    // Send a preliminary message to notify that the ping is being measured
+    const pingMsg = await byxx.sendMessage(m.chat, { text: '𝐑𝐞𝐚𝐝𝐢𝐧𝐠 𝐩𝐢𝐧𝐠 ⫸' });
+
+    // Capture the end time after the message is sent
+    const endTime = performance.now();
+    const latensi = (endTime - startTime).toFixed(3); // Calculate the latency in milliseconds
+
+    // Relay an edited message with the calculated ping
+    await byxx.relayMessage(m.chat, {
+        protocolMessage: {
+            key: pingMsg.key,
+            type: 14, // Protocol type for editing messages
+            editedMessage: {
+                conversation: `*ᴅᴇᴍᴏɴx ᴍᴅ ꜱᴩᴇᴇᴅ ${latensi} ᴍꜱ*`
+            }
+        }
+    }, {});
+}
+break;
 case 'tag': case 'hidetag':
 //if (!isRegistered) return registerbut(noregis)
 if (!isOwner) return reply(mess.only.owner)
