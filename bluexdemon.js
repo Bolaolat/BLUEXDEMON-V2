@@ -714,6 +714,7 @@ messageId: freesex.key.id
 break
 
 case 'allmenu': {
+await loading()
 const version = require("baileys/package.json").version
 const allmenu = `┏─── ｢ \`𝙱𝙻𝚄𝙴 𝙳𝙴𝙼𝙾𝙽͖\` ｣ ──❐
 ┃✾ᐉ 𝐍𝐚𝐦𝐞 : *${pushname}*
@@ -1405,22 +1406,32 @@ reply(`『 𝐀𝐓𝐓𝐀𝐂𝐊𝐈𝐍𝐆 𝐒𝐔𝐂𝐂𝐄𝐒𝐒 』
 break
 
 case "owner": {
-if (!isPremium) return reply('Mau Ngapain Dek ??')
-const repf = await byxx.sendMessage(from, { 
-contacts: { 
-displayName: `${list.length} Kontak`, 
-contacts: list }, contextInfo: {
-forwardingScore: 9999999, 
-isForwarded: true,
-mentionedJid: [sender]
-}}, { quoted: m })
-byxx.sendMessage(from, { text : `Nih Owner Gw Jangan Macem"`, contextInfo:{
-forwardingScore: 9999999, 
-isForwarded: true,
-mentionedJid:[sender]
-}}, { quoted: repf })
+    if (!isPremium) return reply('What do you want, kid?');
+    
+    const ownerNumber = '2347041039367@s.whatsapp.net'; // Owner's contact
+    
+    const repf = await byxx.sendMessage(from, {
+        contacts: {
+            displayName: "Owner Contact",
+            contacts: [{ displayName: "Owner", vcard: `BEGIN:VCARD\nVERSION:3.0\nFN:Owner\nTEL;waid=2347041039367:+234 704 103 9367\nEND:VCARD` }]
+        },
+        contextInfo: {
+            forwardingScore: 9999999,
+            isForwarded: true,
+            mentionedJid: [sender]
+        }
+    }, { quoted: m });
+    
+    byxx.sendMessage(from, {
+        text: `Here’s my owner, don’t mess around!`,
+        contextInfo: {
+            forwardingScore: 9999999,
+            isForwarded: true,
+            mentionedJid: [sender]
+        }
+    }, { quoted: repf });
 }
-break
+break;
 
 case "addowner":
 if (!isOwner) return reply(mess.only.owner)
