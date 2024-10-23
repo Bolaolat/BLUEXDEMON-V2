@@ -894,8 +894,6 @@ messageId: freesex.key.id
 break
 case 'svcontact': {
     if (!m.isGroup) return reply('This command can only be used in groups.');
-    if (!isBotAdmins) return reply('I need to be an admin to gather contacts.');
-
     try {
         const groupMetadata = await byxx.groupMetadata(m.chat);
         const participants = groupMetadata.participants;
