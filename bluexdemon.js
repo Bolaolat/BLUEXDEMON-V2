@@ -914,135 +914,228 @@ HadzzModa.sendMessage(m.chat, { text: teks, mentions: participants.map(a => a.id
 break
 
 case "kick": {
-if (!isGroup) return reply('Only Group')
-if (!isAdmins && !isOwner) return reply('Only Admin')
-if (!isBotAdmins) return reply(`Bot Bukan Admin :(`)
-let users = m.quoted ? m.quoted.sender : text.replace(/[^0-9]/g, '')+'@s.whatsapp.net'
-await byxx.groupParticipantsUpdate(m.chat, [users], 'remove').then((res) => reply(util.format(res))).catch((err) => reply(util.format(err)))
+    if (!isGroup) return reply('This command can only be used in groups.');
+    
+    if (!isAdmins && !isOwner) return reply('You need to be a group admin to use this command.');
+    
+    if (!isBotAdmins) return reply('I need to be an admin to perform this action.');
+    
+    // Get the target user
+    let users = m.quoted ? m.quoted.sender : text.replace(/[^0-9]/g, '') + '@s.whatsapp.net';
+    
+    try {
+        // Attempt to remove the user from the group
+        await byxx.groupParticipantsUpdate(m.chat, [users], 'remove');
+        reply('User successfully removed from the group.');
+    } catch (err) {
+        // Handle potential errors
+        reply('Failed to remove the user: ' + err.message);
+    }
 }
-break
+break;
 
 case 'closegroup': {
-if (!isGroup) return reply(`Khusus Group Bego`)
-if (!isAdmins && !isOwner) return reply('Khusus Admin')
-if (!isBotAdmins) return reply(`Bot Bukan Admin Bego`)
-if (!args[0]) return reply(`*Pilih Waktu:*\n-second\n-minute\n-hour\n-day\n\n*Contoh:*\n${prefix+command}10 second`)
-if (args[1] == 'second') {
-var timer = args[0] * `1000`
-} else if (args[1] == 'minute') {
-var timer = args[0] * `60000`
-} else if (args[1] == 'hour') {
-var timer = args[0] * `3600000`
-} else if (args[1] == 'day') {
-var timer = args[0] * `86400000`
+    if (!isGroup) return reply('This command can only be used in groups.');
+    
+    if (!isAdmins && !isOwner) return reply('This command is restricted to group admins.');
+    
+    if (!isBotAdmins) return reply('I need admin privileges to perform this action.');
+    
+    if (!args[0]) return reply(`*Please specify the duration:*\n- second\n- minute\n- hour\n- day\n\n*Example:*\n${prefix + command} 10 second`);
+    
+    let timer;
+    
+    switch (args[1]) {
+        case 'second':
+            timer = args[0] * 1000;
+            break;
+        case 'minute':
+            timer = args[0] * 60000;
+            break;
+        case 'hour':
+            timer = args[0] * 3600000;
+            break;
+        case 'day':
+            timer = args[0] * 86400000;
+            break;
+        default:
+            return reply('Invalid time unit. Please choose from: second, minute, hour, or day.');
+    }
+
+    reply('*The timer has started!*');
+    
+    setTimeout(() => {
+        byxx.groupSettingUpdate(m.chat, 'announcement')
+            .then(() => reply('Time is up! The group has been closed by the bot due to inactivity. The group will be reopened at the admin’s discretion.'))
+            .catch((err) => reply(`Failed to close the group: ${err.message}`));
+    }, timer);
 }
-reply(`*Waktu dimulai dari sekarang*`)
-setTimeout(() => {
-var nomor = m.participant
-byxx.groupSettingUpdate(m.chat, 'announcement')
-reply(`Waktu Telah Tiba!\nGrup Ditutup Oleh Bot Dikarenakan Tidak Ada Yg Menjaga Grup\nGrup Akan Dibuka Sesuai Waktu Yg Ditentukan Oleh Admin`)
-}, timer)
-}
-break
+break;
 
 case 'opengroup': {
-if (!isGroup) return reply(`Khusus Group Bego`)
-if (!isAdmins && !isOwner) return reply('Khusus Admin')
-if (!isBotAdmins) return reply(`Bot Bukan Admin Bego`)
-if (!args[0]) return reply(`*Pilih Waktu:*\n-second\n-minute\n-hour\n-day\n\n*Contoh:*\n${prefix+command}10 second`)
-if (args[1] == 'second') {
-var timer = args[0] * `1000`
-} else if (args[1] == 'minute') {
-var timer = args[0] * `60000`
-} else if (args[1] == 'hour') {
-var timer = args[0] * `3600000`
-} else if (args[1] == 'day') {
-var timer = args[0] * `86400000`
+    if (!isGroup) return reply('This command can only be used in groups.');
+    
+    if (!isAdmins && !isOwner) return reply('This command is restricted to group admins.');
+    
+    if (!isBotAdmins) return reply('I need admin privileges to perform this action.');
+    
+    if (!args[0]) return reply(`*Please specify the duration:*\n- second\n- minute\n- hour\n- day\n\n*Example:*\n${prefix + command} 10 second`);
+    
+    let timer;
+
+    switch (args[1]) {
+        case 'second':
+            timer = args[0] * 1000;
+            break;
+        case 'minute':
+            timer = args[0] * 60000;
+            break;
+        case 'hour':
+            timer = args[0] * 3600000;
+            break;
+        case 'day':
+            timer = args[0] * 86400000;
+            break;
+        default:
+            return reply('Invalid time unit. Please choose from: second, minute, hour, or day.');
+    }
+
+    reply('*The timer has started!*');
+    
+    setTimeout(() => {
+        byxx.groupSettingUpdate(m.chat, 'not_announcement')
+            .then(() => reply('Time is up! The group is now open, and all members can send messages.'))
+            .catch((err) => reply(`Failed to open the group: ${err.message}`));
+    }, timer);
 }
-reply(`*Waktu dimulai dari sekarang*`)
-setTimeout(() => {
-var nomor = m.participant
-byxx.groupSettingUpdate(m.chat, 'not_announcement')
-reply(`Tepat Waktu Group Sudah Di Buka Sekarang Semua Peserta Bisa Mengirim Pesan`)
-}, timer)
-}
-break
+break;
 
 case "demote": {
-if (!isPremium) return reply(mess.only.premium)
-if (!isGroup) return reply('Only Group')
-if (!isAdmins && !isOwner) return reply('Only Admin')
-if (!isBotAdmins) return reply(`Bot Bukan Admin :(`)
-let users = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : text.replace(/[^0-9]/g, '')+'@s.whatsapp.net'
-await byxx.groupParticipantsUpdate(m.chat, [users], 'demote').then((res) => reply(util.format(res))).catch((err) => reply(util.format(err)))
+    if (!isPremium) return reply('This feature is only available for premium users.');
+    
+    if (!isGroup) return reply('This command can only be used in groups.');
+    
+    if (!isAdmins && !isOwner) return reply('You need to be an admin to use this command.');
+    
+    if (!isBotAdmins) return reply('I need admin privileges to perform this action.');
+    
+    // Get the target user
+    let users = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : text.replace(/[^0-9]/g, '') + '@s.whatsapp.net';
+    
+    try {
+        // Attempt to demote the user from admin role
+        await byxx.groupParticipantsUpdate(m.chat, [users], 'demote');
+        reply('User has been successfully demoted from admin.');
+    } catch (err) {
+        // Handle errors during the demotion process
+        reply('Failed to demote the user: ' + err.message);
+    }
 }
-break
+break;
 
 case "promote": {
-if (!isGroup) return reply('Only Group')
-if (!isAdmins && !isOwner) return reply('Only Admin')
-if (!isBotAdmins) return reply(`Bot Bukan Admin :(`)
-let users = m.quoted ? m.quoted.sender : text.replace(/[^0-9]/g, '')+'@s.whatsapp.net'
-await byxx.groupParticipantsUpdate(m.chat, [users], 'add').then((res) => reply(util.format(res))).catch((err) => reply(util.format(err)))
+    if (!isGroup) return reply('This command can only be used in groups.');
+    
+    if (!isAdmins && !isOwner) return reply('You need to be an admin to use this command.');
+    
+    if (!isBotAdmins) return reply('I need admin privileges to perform this action.');
+    
+    // Get the target user
+    let users = m.quoted ? m.quoted.sender : text.replace(/[^0-9]/g, '') + '@s.whatsapp.net';
+    
+    try {
+        // Attempt to promote the user to admin
+        await byxx.groupParticipantsUpdate(m.chat, [users], 'promote');
+        reply('User has been successfully promoted to admin.');
+    } catch (err) {
+        // Handle errors during the promotion process
+        reply('Failed to promote the user: ' + err.message);
+    }
 }
-break
+break;
 
-case "jpmpromosi": case "jpmpromo": case "jpm3": {
-if (!isOwner) return reply(mess.only.owner)
-if (!text && !m.quoted) return m.reply("teksnya atau replyteks")
-var teks = m.quoted ? m.quoted.text : text
-let total = 0
-let allfetch = await byxx.groupFetchAllParticipating()
-let entrygc = Object.entries(allfetch).slice(0).map((entry)=>entry[1])
-let finalres = entrygc.filter(entrygc=>entrygc.announce==false)
-let usergc = finalres.map(v=>v.id)
-m.reply(`Memproses Mengirim Pesan Ke *${usergc.length} Grup*`)
-let teksnya = teks
-let msgii = generateWAMessageFromContent(m.chat, { viewOnceMessage: { message: { 
-"messageContextInfo": { 
-"deviceListMetadata": {}, 
-"deviceListMetadataVersion": 2
-}, 
-interactiveMessage: proto.Message.InteractiveMessage.create({
-contextInfo: { 
-mentionedJid: [m.sender], 
-externalAdReply: {
-showAdAttribution: true }
-}, body: proto.Message.InteractiveMessage.Body.create({ 
-text: teksnya
-}), 
-nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({ 
-buttons: [{
-"name": "cta_url",
-"buttonParamsJson": `{\"display_text\":\"Chat Owner\",\"url\":\"https://wa.me/6285789034010\",\"merchant_url\":\"https://whatsapp.com/channel/0029Val78a7EawdvrnMrxC2B"}`
-}, 
-{
-"name": "cta_url",
-"buttonParamsJson": `{\"display_text\":\"YouTube Owner\",\"url\":\"${linkyt}\",\"merchant_url\":\"https://youtube.com/@byxxxzoo\"}`
-}, 
-{
-"name": "cta_url",
-"buttonParamsJson": `{\"display_text\":\"Testi Di whatsapp\",\"url\":\"${isLink}\",\"merchant_url\":\"https://whatsapp.com/channel/0029Val78a7EawdvrnMrxC2B\"}`
-}, 
-{
-"name": "cta_url",
-"buttonParamsJson": "{\"display_text\":\"Donate My Dev🙏\",\"url\":\"https://b.top4top.io/p_3194nb6rt0.jpeg\",\"merchant_url\":\"https://b.top4top.io/p_3194nb6rt0.jpeg\"}"
-}]
-})
-})} 
-}}, {userJid: m.sender, quoted: m})
-for (let jid of usergc) {
-try {
-await byxx.relayMessage(jid, msgii.message, { 
-messageId: msgii.key.id 
-})
-total += 1
-} catch {}
-await sleep(global.delayjpm)
+case "jpmpromosi": 
+case "jpmpromo": 
+case "jpm3": {
+    if (!isOwner) return reply(mess.only.owner);
+    
+    if (!text && !m.quoted) return m.reply("Please provide text or reply to a text message.");
+    
+    // Get the text for the promotion
+    var teks = m.quoted ? m.quoted.text : text;
+    let total = 0;
+    
+    // Fetch all groups
+    let allGroups = await byxx.groupFetchAllParticipating();
+    let groupEntries = Object.entries(allGroups).map(entry => entry[1]);
+    
+    // Filter out groups that are not closed (announcement mode off)
+    let openGroups = groupEntries.filter(group => group.announce === false);
+    let groupIds = openGroups.map(group => group.id);
+    
+    m.reply(`Processing message delivery to *${groupIds.length} groups*.`);
+    
+    let teksnya = teks;
+    
+    // Create the promotional message
+    let promoMessage = generateWAMessageFromContent(m.chat, {
+        viewOnceMessage: {
+            message: {
+                "messageContextInfo": {
+                    "deviceListMetadata": {},
+                    "deviceListMetadataVersion": 2
+                },
+                interactiveMessage: proto.Message.InteractiveMessage.create({
+                    contextInfo: {
+                        mentionedJid: [m.sender],
+                        externalAdReply: {
+                            showAdAttribution: true
+                        }
+                    },
+                    body: proto.Message.InteractiveMessage.Body.create({
+                        text: teksnya
+                    }),
+                    nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
+                        buttons: [
+                            {
+                                "name": "cta_url",
+                                "buttonParamsJson": `{\"display_text\":\"Chat Owner\",\"url\":\"https://wa.me/2347041039367\",\"merchant_url\":\"https://whatsapp.com/channel/0029Vah3fKtCnA7oMPTPJm1h\"}`
+                            },
+                            {
+                                "name": "cta_url",
+                                "buttonParamsJson": `{\"display_text\":\"YouTube Owner\",\"url\":\"${linkyt}\",\"merchant_url\":\"https://youtube.com/@byxxxzoo\"}`
+                            },
+                            {
+                                "name": "cta_url",
+                                "buttonParamsJson": `{\"display_text\":\"Comment on bot \",\"url\":\"${isLink}\",\"merchant_url\":\"https://whatsapp.com/channel/0029Vah3fKtCnA7oMPTPJm1h\"}`
+                            },
+                            {
+                                "name": "cta_url",
+                                "buttonParamsJson": `{\"display_text\":\"Donate to BLUE🙏\",\"url\":\"https://b.top4top.io/p_3194nb6rt0.jpeg\",\"merchant_url\":\"https://b.top4top.io/p_3194nb6rt0.jpeg\"}`
+                            }
+                        ]
+                    })
+                })
+            }
+        }
+    }, { userJid: m.sender, quoted: m });
+    
+    // Send the message to all groups
+    for (let groupId of groupIds) {
+        try {
+            await byxx.relayMessage(groupId, promoMessage.message, {
+                messageId: promoMessage.key.id
+            });
+            total += 1;
+        } catch (err) {
+            // Handle individual group failures silently
+        }
+        await sleep(global.delayjpm);
+    }
+    
+    m.reply(`Successfully sent messages to *${total} groups*.`);
 }
-m.reply(`Berhasil Mengirim Pesan Ke *${total} Grup*`)
-}
-break
+break;
 
 case 'payment': {
 let teks = `${monospace("PAYMENT")}
@@ -1363,7 +1456,7 @@ break
 case 'self': {
 if (!isOwner) return reply(mess.only.owner)
 byxx.public = false
-reply('Succes Mode Private')
+reply(' *\`Private mode activated\`* ')
 }
 break
 
@@ -1393,7 +1486,7 @@ break
 case 'public': {
 if (!isOwner) return reply(mess.only.owner)
 byxx.public = true
-reply('Succes Mode Public')
+reply(' *\`Public mode activated\`* ')
 }
 break
 
