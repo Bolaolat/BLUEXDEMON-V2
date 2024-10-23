@@ -545,7 +545,7 @@ const menu = `┏━━━ ｢ \`𝙱𝙻𝚄𝙴 𝙳𝙴𝙼𝙾𝙽͖\` ｣ �
 ┃ ✾ᐉ 𝐍𝐚𝐦𝐞 : *${pushname}*
 ┃ ✾ᐉ 𝐁𝐨𝐭 : ${namabot}
 ┃ ✾ᐉ 𝐑𝐮𝐧 : *${run}*
-┗━━━────────────❐
+┗━━━━━━━━━━━━━━━━━━❐
 \`💞ᴘʀᴏᴛᴇᴄᴛ ᴛʜᴏꜱᴇ ʏᴏᴜ ʟᴏᴠᴇ💞\`
 `
 let sections = [{
@@ -615,7 +615,6 @@ await byxx.sendMessage(m.chat, {audio: darkphonk, mimetype:'audio/mp4', ptt: tru
 break
 
 case 'bugmenu': {
-await loading()
 const version = require("baileys/package.json").version
 const bugmenu = `┏─── ｢ \`𝙱𝙻𝚄𝙴 𝙳𝙴𝙼𝙾𝙽͖\` ｣ ──❐
 ┃✾ᐉ 𝐍𝐚𝐦𝐞 : *${pushname}*
@@ -714,7 +713,6 @@ messageId: freesex.key.id
 break
 
 case 'allmenu': {
-await loading()
 const version = require("baileys/package.json").version
 const allmenu = `┏─── ｢ \`𝙱𝙻𝚄𝙴 𝙳𝙴𝙼𝙾𝙽͖\` ｣ ──❐
 ┃✾ᐉ 𝐍𝐚𝐦𝐞 : *${pushname}*
@@ -815,7 +813,6 @@ messageId: freesex.key.id
 break
 
 case 'buttonbug': {
-await loading()
 const version = require("baileys/package.json").version
 const toolsmenu = `┏─── ｢ \`𝙱𝙻𝚄𝙴 𝙳𝙴𝙼𝙾𝙽͖\` ｣ ──❐
 ┃✾ᐉ 𝐍𝐚𝐦𝐞 : *${pushname}*
@@ -825,7 +822,7 @@ const toolsmenu = `┏─── ｢ \`𝙱𝙻𝚄𝙴 𝙳𝙴𝙼𝙾𝙽͖\` 
 \`🩸⃟༑𝕴 𝕬𝕸 𝕳𝕴𝕸ཀ͜͡🦠\`
 
 ┏────────❐ 
-┃ 𝗫𝗯𝘂𝘁𝘁𝗼𝗻 𝟲𝟮𝘅𝘅𝘅
+┃ 𝗕𝗹𝘂𝗲𝗯𝘂𝘁𝘁𝗼𝗻  𝟲𝟮𝘅𝘅𝘅
 ┗──────────❐
 𝙽𝙾𝚃𝙴 : ᴛʜɪꜱ ɪꜱ ᴀ ʙᴜɢ ʙᴜᴛᴛᴏɴ ᴄᴏᴍᴍᴀɴᴅ, ʟᴀᴛᴇʀ ʏᴏᴜ ᴡɪʟʟ ʙᴇ ᴀꜱᴋᴇᴅ ᴛᴏ ᴄʜᴏᴏꜱᴇ ᴛʜᴇ ʙᴜɢ ᴀᴛᴛᴀᴄᴋ ᴍᴇᴛʜᴏᴅ
 ──────────────❐`
@@ -955,7 +952,7 @@ break;
 case 'tag': case 'hidetag':
 //if (!isRegistered) return registerbut(noregis)
 if (!isOwner) return reply(mess.only.owner)
-if (!text) return reply(`Teks?`)
+if (!text) return reply(`🤔`)
 byxx.sendMessage(m.chat, { text : text ? text : '' , mentions: participants.map(a => a.id)}, { quoted: m })
 break
 
